@@ -1,0 +1,22 @@
+﻿@using Url.Data;
+@model IEnumerable<URL>
+
+
+<table class="table table-hover table-striped table-bordered" id="table" style="margin-top: 15px">
+    <tr>
+        <th>Long Url</th>
+        <th>Short Url</th>
+        <th>Count</th>
+    </tr>
+
+    @foreach (URL u in Model)
+    {
+    <tr>
+        <td>@u.LongUrl</td>
+        <td>http://localhost:62371/@u.ShortUrl</td>
+        <td>@u.Count</td>
+    </tr>
+    }
+
+  </table>
+

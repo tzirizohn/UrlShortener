@@ -7,12 +7,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;   
 
 namespace Homework_05_20_19
 {
     public class Startup
     {
+        public const string CookieScheme = "HI";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -31,6 +33,14 @@ namespace Homework_05_20_19
             });
 
 
+            services.AddAuthentication(CookieScheme).AddCookie(CookieScheme, options =>
+            {
+                options.AccessDeniedPath = "/home/denied";
+                options.LoginPath = "/home/loginform";
+            });
+
+            services.AddSignalR();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -48,6 +58,7 @@ namespace Homework_05_20_19
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
@@ -55,6 +66,8 @@ namespace Homework_05_20_19
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+                        
+
         }
     }
 }
